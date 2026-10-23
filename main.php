@@ -1,2 +1,5 @@
 <?php 
-    echo "Carnet d'adresses - démarrage" . PHP_EOL;
+    while (true) {
+        $line = readline("Entrez une commande : ");
+        echo "Vous avez saisi : " . $line . PHP_EOL;
+    }
