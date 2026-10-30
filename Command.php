@@ -16,7 +16,7 @@
             echo "ID | Nom | Email | Téléphone" . PHP_EOL;
             echo "-------------------" . PHP_EOL;
             foreach ($contacts as $contact) {
-                echo $contact->toString() . PHP_EOL;
+                echo $contact->__toString() . PHP_EOL;
             }
         }
 
@@ -28,7 +28,7 @@
                 return;
             }
 
-            echo $contact->toString() . PHP_EOL;
+            echo $contact->__toString() . PHP_EOL;
         }
 
         public function create(string $name, string $email, string $phone): void {
@@ -73,7 +73,7 @@
 
             $this->manager->update($contact);
 
-            echo "Contact modifié : " . $contact->toString() . PHP_EOL;
+            echo "Contact modifié : " . $contact->__toString() . PHP_EOL;
         }
 
         public function help(): void {
