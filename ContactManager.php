@@ -50,4 +50,14 @@
 
             return $contact;
         }
+
+        public function create(Contact $contact): void {
+            $pdo = $this->db->getPDO();
+            $statement = $pdo->prepare("INSERT INTO contacts (nom, email, phone_number) VALUES (:name, :email, :phone)");
+            $statement->bindValue(':name', $contact->getName());
+            $statement->bindValue(':email', $contact->getEmail());
+            $statement->bindValue(':phone', $contact->getPhone());
+            $statement->execute();
+            $contact->setId((int)$pdo->lastInsertId());
+        }
     }

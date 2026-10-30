@@ -30,4 +30,14 @@
 
             echo $contact->toString() . PHP_EOL;
         }
+
+        public function create(string $name, string $email, string $phone): void {
+            $contact = new Contact();
+            $contact->setName($name);
+            $contact->setEmail($email);
+            $contact->setPhone($phone);
+
+            $this->manager->create($contact);
+            echo "Contact créé avec l'id : " . $contact->getId() . PHP_EOL;
+        }
     }
