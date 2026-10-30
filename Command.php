@@ -40,4 +40,22 @@
             $this->manager->create($contact);
             echo "Contact créé avec l'id : " . $contact->getId() . PHP_EOL;
         }
+
+        public function delete(int $id): void {
+            $contact = $this->manager->findById($id);
+
+            if ($contact === null) {
+                echo "Aucun contact avec l'ID : " . $id . PHP_EOL;
+                return;
+            }
+
+            $answer = strtolower(trim(readline("Êtes-vous sûr de vouloir supprimer le contact avec l'ID $id ? (oui/non) : ")));
+
+            if ($answer === 'oui') {
+                $this->manager->delete($id);
+                echo "Le contact " . $id . " a été supprimé." . PHP_EOL;
+            } else {
+                echo "Suppression annulée." . PHP_EOL;
+            }
+        }
     }

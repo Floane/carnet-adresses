@@ -60,4 +60,11 @@
             $statement->execute();
             $contact->setId((int)$pdo->lastInsertId());
         }
+
+        public function delete(int $id): bool {
+            $statement = $this->db->getPDO()->prepare("DELETE FROM contacts WHERE id = :id");
+            $statement->bindValue(':id', $id, PDO::PARAM_INT);
+            $statement->execute();
+            return $statement->rowCount() > 0;
+        }
     }

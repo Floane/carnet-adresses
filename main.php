@@ -15,6 +15,8 @@
             $command->create(trim($matches[1]), trim($matches[2]), trim($matches[3]));
         } elseif (preg_match('/^create\b/', $line)) {
             echo "Syntaxe : create [name], [email], [phone]" . PHP_EOL;
+        } elseif (preg_match('/^delete\s+(\d+)$/', $line, $matches)) {
+            $command->delete((int) $matches[1]);
         } else {
             echo "Vous avez saisi : " . $line . PHP_EOL;
         }
