@@ -7,6 +7,11 @@
     while (true) {
         $line = trim(readline("Entrez votre commande : "));
 
+        if ($line === 'quit') {
+            echo "Au revoir !" . PHP_EOL;
+            break;
+        }
+
         if ($line === 'list') {
             $command->list();
         } elseif (preg_match('/^detail\s+(\d+)$/', $line, $matches)) {
