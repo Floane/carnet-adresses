@@ -19,4 +19,15 @@
                 echo $contact->toString() . PHP_EOL;
             }
         }
+
+        public function detail(int $id): void {
+            $contact = $this->manager->findById($id);
+
+            if ($contact === null) {
+                echo "Aucun contact avec l'ID : " . $id . PHP_EOL;
+                return;
+            }
+
+            echo $contact->toString() . PHP_EOL;
+        }
     }

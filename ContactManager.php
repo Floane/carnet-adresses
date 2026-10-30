@@ -30,4 +30,24 @@
 
             return $contacts;
         }
+
+        public function findById(int $id): ?Contact {
+            $statement = $this->db->getPDO()->prepare("SELECT * FROM contacts WHERE id = :id");
+            $statement->bindValue(':id', $id, PDO::PARAM_INT);
+            $statement->execute();
+
+            $row = $statement->fetch();
+
+            if ($row === false) {
+                return null;
+            }
+
+            $contact = new Contact();
+            $contact->setId($row['id']);
+            $contact->setName($row['nom']);
+            $contact->setEmail($row['email']);
+            $contact->setPhone($row['phone_number']);
+
+            return $contact;
+        }
     }

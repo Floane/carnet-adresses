@@ -10,6 +10,9 @@
         if ($line === 'list') {
             $command->list();
         }
+        elseif (preg_match('/^detail\s+(\d+)$/', $line, $matches)) {
+            $command->detail((int)$matches[1]);
+        }
         else {
             echo "Vous avez saisi : " . $line . PHP_EOL;
         }
