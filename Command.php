@@ -58,4 +58,13 @@
                 echo "Suppression annulée." . PHP_EOL;
             }
         }
+
+            public function help(): void {
+                echo "Commandes disponibles :" . PHP_EOL;
+                echo "  list                             Afficher tous les contacts" . PHP_EOL;
+                echo "  detail [id]                      Afficher un contact" . PHP_EOL;
+                echo "  create [name], [email], [phone]  Créer un contact" . PHP_EOL;
+                echo "  delete [id]                      Supprimer un contact" . PHP_EOL;
+                echo "  quit                             Quitter le programme" . PHP_EOL;
+            }
     }
