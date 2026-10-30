@@ -67,4 +67,15 @@
             $statement->execute();
             return $statement->rowCount() > 0;
         }
+
+        public function update(Contact $contact): void {
+            $statement = $this->db->getPDO()->prepare(
+                'UPDATE contacts SET nom = :name, email = :email, phone_number = :phone WHERE id = :id'
+            );
+            $statement->bindValue(':name', $contact->getName());
+            $statement->bindValue(':email', $contact->getEmail());
+            $statement->bindValue(':phone', $contact->getPhone());
+            $statement->bindValue(':id', $contact->getId(), PDO::PARAM_INT);
+            $statement->execute();
+        }
     }

@@ -27,6 +27,10 @@
                 $command->create(trim($matches[1]), trim($matches[2]), trim($matches[3]));
             } elseif (preg_match('/^create\b/', $line)) {
                 echo "Syntaxe : create [name], [email], [phone]" . PHP_EOL;
+            } elseif (preg_match('/^modify\s+(\d+)\s*,([^,]+),([^,]+),([^,]+)$/', $line, $matches)) {
+                $command->modify((int) $matches[1], trim($matches[2]), trim($matches[3]), trim($matches[4]));
+            } elseif (preg_match('/^modify\b/', $line)) {
+            echo "Syntaxe : modify [id], [name], [email], [phone]" . PHP_EOL;
             } else {
                 echo "Commande inconnue : " . $line . PHP_EOL;
                 $command->help();

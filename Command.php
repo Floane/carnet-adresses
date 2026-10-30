@@ -59,12 +59,31 @@
             }
         }
 
-            public function help(): void {
-                echo "Commandes disponibles :" . PHP_EOL;
-                echo "  list                             Afficher tous les contacts" . PHP_EOL;
-                echo "  detail [id]                      Afficher un contact" . PHP_EOL;
-                echo "  create [name], [email], [phone]  Créer un contact" . PHP_EOL;
-                echo "  delete [id]                      Supprimer un contact" . PHP_EOL;
-                echo "  quit                             Quitter le programme" . PHP_EOL;
+        public function modify(int $id, string $name, string $email, string $phone): void {
+            $contact = $this->manager->findById($id);
+
+            if ($contact === null) {
+                echo "Aucun contact avec l'id " . $id . PHP_EOL;
+                return;
             }
+
+            $contact->setName($name);
+            $contact->setEmail($email);
+            $contact->setPhone($phone);
+
+            $this->manager->update($contact);
+
+            echo "Contact modifié : " . $contact->toString() . PHP_EOL;
+        }
+
+        public function help(): void {
+            echo "Commandes disponibles :" . PHP_EOL;
+            echo "  list                                   Afficher tous les contacts" . PHP_EOL;
+            echo "  detail [id]                            Afficher un contact" . PHP_EOL;
+            echo "  create [name], [email], [phone]        Créer un contact" . PHP_EOL;
+            echo "  delete [id]                            Supprimer un contact" . PHP_EOL;
+            echo "  modify [id], [name], [email], [phone]  Modifier un contact" . PHP_EOL;
+            echo "  quit                                   Quitter le programme" . PHP_EOL;
+        }
+
     }
