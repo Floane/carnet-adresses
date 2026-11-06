@@ -7,33 +7,63 @@
     while (true) {
         $line = trim(readline("Entrez votre commande : "));
 
+        if ($line === '') {
+            continue;
+        }
+
         if ($line === 'quit') {
             echo "Au revoir !" . PHP_EOL;
             break;
         }
 
-        if ($line === '') {
-            continue;
-        }
+        $parts = explode(' ', $line, 2);
+        $commandName = $parts[0];
+        $args = trim($parts[1] ?? '');
 
         try {
-            if ($line === 'list') {
-                $command->list();
-            } elseif (preg_match('/^detail\s+(\d+)$/', $line, $matches)) {
-                $command->detail((int) $matches[1]);
-            } elseif (preg_match('/^delete\s+(\d+)$/', $line, $matches)) {
-                $command->delete((int) $matches[1]);
-            } elseif (preg_match('/^create\s+([^,]+),([^,]+),([^,]+)$/', $line, $matches)) {
-                $command->create(trim($matches[1]), trim($matches[2]), trim($matches[3]));
-            } elseif (preg_match('/^create\b/', $line)) {
-                echo "Syntaxe : create [name], [email], [phone]" . PHP_EOL;
-            } elseif (preg_match('/^modify\s+(\d+)\s*,([^,]+),([^,]+),([^,]+)$/', $line, $matches)) {
-                $command->modify((int) $matches[1], trim($matches[2]), trim($matches[3]), trim($matches[4]));
-            } elseif (preg_match('/^modify\b/', $line)) {
-            echo "Syntaxe : modify [id], [name], [email], [phone]" . PHP_EOL;
-            } else {
-                echo "Commande inconnue : " . $line . PHP_EOL;
-                $command->help();
+            switch ($commandName) {
+                case 'list':
+                    $command->list();
+                    break;
+
+                case 'detail':
+                    if (ctype_digit($args)) {
+                        $command->detail((int)$args);
+                    } else {
+                        echo "Syntaxe : detail [id]" . PHP_EOL;
+                    }
+                    break;
+
+                case 'delete':
+                    if (ctype_digit($args)) {
+                        $command->delete((int)$args);
+                    } else {
+                        echo "Syntaxe : delete [id]" . PHP_EOL;
+                    }
+                    break;
+
+                case 'create':
+                    $values = array_map('trim', explode(',', $args));
+                    if (count($values) === 3 && !in_array('', $values, true)) {
+                        $command->create($values[0], $values[1], $values[2]);
+                    } else {
+                        echo "Syntaxe : create [name], [email], [phone]" . PHP_EOL;
+                    }
+                    break;
+
+                case 'modify':
+                    $values = array_map('trim', explode(',', $args));
+                    if (count($values) === 4 && ctype_digit($values[0]) && !in_array('', $values, true)) {
+                        $command->modify((int)$values[0], $values[1], $values[2], $values[3]);
+                    } else {
+                        echo "Syntaxe : modify [id], [name], [email], [phone]" . PHP_EOL;
+                    }
+                    break;
+
+                default:
+                    echo "Commande inconnue : " . $commandName . PHP_EOL;
+                    $command->help();
+                    break;
             }
         } catch (PDOException $e) {
             echo "Erreur de base de données : impossible d'exécuter la commande." . PHP_EOL;
